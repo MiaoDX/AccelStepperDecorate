@@ -41,7 +41,7 @@ AccelStepperDecorate stepper1Decorate('X',
 
                                       X_MIN_PIN,
                                       X_MAX_PIN,
-                                      true,
+                                      false,
 
                                       1 ,
                                       1 ,
@@ -60,10 +60,10 @@ AccelStepperDecorate stepper2Decorate('Y',
 
                                       Y_MIN_PIN,
                                       Y_MAX_PIN,
-                                      true,
+                                      false,
 
 
-                                      1 ,
+                                      32 ,
                                       1 ,
                                       1.8 ,
                                       200 ,
@@ -90,7 +90,7 @@ void setup() {
 
 void loop() {
 
-  long relative[2] = {2000, -1000};
+  long relative[2] = {2000, -1000*32};
   steppersDecorate.moveRelativeWithPredefinedAccel(relative);
   steppersDecorate.prepareToGo();
   steppersDecorate.runAccelToPosition();

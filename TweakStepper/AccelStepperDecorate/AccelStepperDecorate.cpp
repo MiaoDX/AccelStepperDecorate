@@ -33,8 +33,8 @@ AccelStepperDecorate::AccelStepperDecorate(char motorName,
     this->reductionRatio = reductionRatio;
 
     this->stepAngle = stepAngle;
-    this->maxSpeed = maxSpeed;
-    this->acceleration = acceleration;
+    this->maxSpeed = maxSpeed * subdivision;
+    this->acceleration = acceleration * subdivision;
     this->maxMovingDistance = maxMovingDistance;
 
     this->stepPerRound = 360.0 / this->stepAngle * this->reductionRatio * this->subdivision; //每圈脉冲数
