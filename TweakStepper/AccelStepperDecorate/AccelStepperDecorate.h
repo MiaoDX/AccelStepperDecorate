@@ -39,8 +39,10 @@ class AccelStepperDecorate
 
 
     void setup();
+    void prepareToGo();
+    int reachLimit(); // 0 for ok, 1 for Positive limit, -1 for another.
     
-    int dis2Pulses(double distance);
+    long dis2Pulses(double distance);
     bool run();
     void stop();
 
@@ -70,7 +72,8 @@ class AccelStepperDecorate
         subdivision,             //细分数
         reductionRatio = 1;      //减速比
     
-    bool outRangeSwitch = true;
+    bool outRangeSwitch = true; // whether we care about out-range or not
+    bool outRangeStatus = false; // if true, means already got the limit
 
     /*static speed parameter*/
     double stepAngle = 1.8, //步距角
