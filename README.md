@@ -16,6 +16,10 @@ Search `AccelStepper` and download. It should be in `C:\Users\<Your-User-Name>\D
 
 2.Clone and try the codes (.ino) we provide. (Will make a lib after organize the code)
 
+``` vi
+git clone https://github.com/MiaoDX/arduino_stuff.git
+```
+
 
 ### TODO
 
