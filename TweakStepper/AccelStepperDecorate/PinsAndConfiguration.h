@@ -1,5 +1,5 @@
 /**
-* PUT all pins specification in one file to make things easier
+  PUT all pins specification in one file to make things easier
 */
 #ifndef PinsAndConfiguration_h
 #define PinsAndConfiguration_h

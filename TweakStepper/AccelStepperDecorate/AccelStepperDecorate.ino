@@ -4,12 +4,13 @@
 // the same position at the same time for linear 2d (or 3d) motion.
 
 #include <AccelStepper.h>
-#include <MultiStepper.h>
+// #include <MultiStepper.h>
 #include "PinsAndConfiguration.h"
 #include "AccelStepperDecorate.h"
+#include "MultiStepperDecorate.h"
 
 
-AccelStepper stepper1(AccelStepper::DRIVER, X_STEP_PIN, X_DIR_PIN);
+// AccelStepper stepper1(AccelStepper::DRIVER, X_STEP_PIN, X_DIR_PIN);
 //AccelStepper stepper2(AccelStepper::DRIVER, Y_STEP_PIN, Y_DIR_PIN);
 
 /*
@@ -33,6 +34,25 @@ AccelStepper stepper1(AccelStepper::DRIVER, X_STEP_PIN, X_DIR_PIN);
                          );
 */
 
+AccelStepperDecorate stepper1Decorate('X',
+                                      X_DIR_PIN,
+                                      X_STEP_PIN,
+                                      X_ENABLE_PIN,
+
+                                      X_MIN_PIN,
+                                      X_MAX_PIN,
+                                      true,
+
+                                      1 ,
+                                      1 ,
+                                      1.8 ,
+                                      200 ,
+                                      50 ,
+                                      20 ,
+
+                                      0.1
+                                     );
+
 AccelStepperDecorate stepper2Decorate('Y',
                                       Y_DIR_PIN,
                                       Y_STEP_PIN,
@@ -42,9 +62,6 @@ AccelStepperDecorate stepper2Decorate('Y',
                                       Y_MAX_PIN,
                                       true,
 
-//                                      0 ,
-//                                      0 ,
-//                                      false ,
 
                                       1 ,
                                       1 ,
@@ -59,9 +76,31 @@ AccelStepperDecorate stepper2Decorate('Y',
 
 
 // Up to 10 steppers can be handled as a group by MultiStepper
-MultiStepper steppers;
+MultiStepperDecorate steppersDecorate;
+
 
 void setup() {
+  Serial.begin(9600);
+
+  // Then give them to MultiStepper to manage
+  steppersDecorate.addStepper(stepper1Decorate);
+  steppersDecorate.addStepper(stepper2Decorate);
+}
+
+
+void loop() {
+
+  long relative[2] = {2000, -1000};
+  steppersDecorate.moveRelativeWithPredefinedAccel(relative);
+  steppersDecorate.prepareToGo();
+  steppersDecorate.runAccelToPosition();
+
+  delay(2000);
+}
+
+
+/*
+  void setup() {
   Serial.begin(9600);
 
   stepper1.setPinsInverted(false, false, true);
@@ -83,25 +122,25 @@ void setup() {
 
   int maxspeed[2] = {300, 300};
   steppers.moveRelativeWithAccelSetbackMaxSpeed(maxspeed);
-}
+  }
 
 
 
-void loop() {
+  void loop() {
 
   stepper1.disableOutputs();
-  
+
   stepper2Decorate.stepper.move(1000);
   stepper2Decorate.prepareToGo();
 
-//  while (abs(stepper2Decorate.stepper.distanceToGo()) > 0) {
-//    stepper2Decorate.run();
-//  }
+  //  while (abs(stepper2Decorate.stepper.distanceToGo()) > 0) {
+  //    stepper2Decorate.run();
+  //  }
 
   while (stepper2Decorate.run())
     ;
 
-  
+
 
   delay(2000);
 
@@ -110,17 +149,17 @@ void loop() {
 
   stepper2Decorate.stepper.move(steps);
   stepper2Decorate.prepareToGo();
-//  while (abs(stepper2Decorate.stepper.distanceToGo()) > 0) {
-//    stepper2Decorate.run();
-//  }
+  //  while (abs(stepper2Decorate.stepper.distanceToGo()) > 0) {
+  //    stepper2Decorate.run();
+  //  }
 
   while (stepper2Decorate.run())
     ;
 
   delay(2000);
 
-}
-
+  }
+*/
 
 
 

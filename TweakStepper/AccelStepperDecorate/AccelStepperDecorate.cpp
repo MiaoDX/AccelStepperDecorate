@@ -65,18 +65,19 @@ void AccelStepperDecorate::setup()
     // PULL UP?
 }
 
-
-void AccelStepperDecorate::prepareToGo(){
-    if (this->outRangeSwitch) // need to care about the limit 
+void AccelStepperDecorate::prepareToGo()
+{
+    if (this->outRangeSwitch) // need to care about the limit
     {
         this->outRangeStatus = false;
     }
 }
 
-int AccelStepperDecorate::reachLimit() {
+int AccelStepperDecorate::rangeStatus()
+{
     if (this->outRangeSwitch && this->outRangeStatus)
     {
-        return (this->stepper.distanceTo() > 0) ? 1 : -1;
+        return (this->stepper.distanceToGo() > 0) ? 1 : -1;
     }
 
     return 0;
@@ -89,7 +90,7 @@ long AccelStepperDecorate::dis2Pulses(double distance)
 
 bool AccelStepperDecorate::run()
 {
-    if (this->outRangeSwitch) // need to care about the limit 
+    if (this->outRangeSwitch) // need to care about the limit
     {
 
         if (this->outRangeStatus) // already reached limit
@@ -99,10 +100,10 @@ bool AccelStepperDecorate::run()
 
         long distanceToGo = this->stepper.distanceToGo();
         if (abs(distanceToGo) % 50 == 0) // every x steps read once, hard code
-        { 
+        {
             int outRangePin = (distanceToGo > 0.0) ? outRangePinPositive : outRangePinNegative;
-            
-            if (digitalRead(outRangePin) == LOW)  //限位传感器平时为高电平，到限位区域返回低电平
+
+            if (digitalRead(outRangePin) == LOW) //限位传感器平时为高电平，到限位区域返回低电平
             {
                 this->outRangeStatus = true;
                 return false;
