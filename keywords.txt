@@ -1,0 +1,31 @@
+#######################################
+# Syntax Coloring Map For AccelStepper
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+AccelStepperDecorate	KEYWORD1
+MultiStepperDecorate	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+setup   KEYWORD2
+prepareToGo KEYWORD2
+rangeStatus KEYWORD2
+dis2Pulses  KEYWORD2
+run KEYWORD2
+stop    KEYWORD2
+addStepper  KEYWORD2
+moveRelativeWithPredefinedAccel KEYWORD2
+runAccel    KEYWORD2
+runAccelToPosition  KEYWORD2
+getAllRangeStatus   KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+ 
