@@ -19,7 +19,7 @@ Search `AccelStepper` and download. It should be in `C:\Users\<Your-User-Name>\D
 ``` vi
 pwd
 # C:\Users\<Your-User-Name>\Documents\Arduino\libraries
-git clone https://github.com/MiaoDX/arduino_stuff.git
+git clone https://github.com/MiaoDX/AccelStepperDecorate.git
 ```
 
 
