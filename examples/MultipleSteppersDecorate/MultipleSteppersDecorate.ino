@@ -1,13 +1,13 @@
-// MultiStepper.pde
+// MultipleSteppersDecorate.ino
 // -*- mode: C++ -*-
-// Use MultiStepper class to manage multiple steppers and make them all move to
-// the same position at the same time for linear 2d (or 3d) motion.
+// Use MultiStepperDecorate class to manage multiple steppers and make them all move to
+// different positions at predefined speed.
 
 #include <AccelStepper.h>
 // #include <MultiStepper.h>
-#include "PinsAndConfiguration.h"
-#include "AccelStepperDecorate.h"
-#include "MultiStepperDecorate.h"
+#include <PinsAndConfiguration.h>
+#include <AccelStepperDecorate.h>
+#include <multiStepperDecorate.h>
 
 
 // AccelStepper stepper1(AccelStepper::DRIVER, X_STEP_PIN, X_DIR_PIN);
