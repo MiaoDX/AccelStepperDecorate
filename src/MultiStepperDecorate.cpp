@@ -106,14 +106,6 @@ boolean MultiStepperDecorate::runAccel()
     boolean ret = false;
     for (i = 0; i < _num_steppers; i++)
     {
-	/*
-    	if ( _steppers[i]->distanceToGo() != 0)
-    	{
-    	    _steppers[i]->run();
-    	    ret = true;
-    	}
-    */
-
 	ret = _steppers_decorate[i]->run() || ret; // if there are steppers have not stoped, just keep running, pay ATTENTION TO THE ORDER
     }
     return ret;
