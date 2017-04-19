@@ -1,31 +1,33 @@
-# Arduino Stuff
+ATTENTION! This library is still under heavy development, and to be honest, I make it a library just to test the functions more convenient (we can have more that one example to use the source code)
 
-We list some arduino code for our platform controlling.
+I will put more examples and design principle latter (hope won't be too long).
 
-## Tweak the steppers (aka AccelStepperDecorate and MultiStepperDecorate).
+# AccelStepperDecorate
 
-We wrap and extend [`AccelStepper`](http://www.airspayce.com/mikem/arduino/AccelStepper) to provide more useful functions for our platform.
+We wrap and extend [`AccelStepper`](http://www.airspayce.com/mikem/arduino/AccelStepper) to provide more useful functions for our platform, aka `AccelStepperDecorate` and `MultiStepperDecorate`.
 
 ### Usage
 
-1.Download the `AccelStepper` lib
+1.Download the original `AccelStepper` lib
 
 `Sketch -> Include Library -> Manage Libraries`
 
 Search `AccelStepper` and download. It should be in `C:\Users\<Your-User-Name>\Documents\Arduino\libraries` folder.
 
-2.Clone and try the codes (.ino) we provide. (Will make a lib after organize the code)
+2.Clone and try the examples we provide and make sure put it in the `libraries` folder.
 
 ``` vi
+pwd
+# C:\Users\<Your-User-Name>\Documents\Arduino\libraries
 git clone https://github.com/MiaoDX/arduino_stuff.git
 ```
 
 
 ### TODO
 
-Communicate with outside.
-
-
+* More examples
+* Communicate with outside for a more usable perspective
+* Documents
 
 ## Some tips to use [`AccelStepper`](http://www.airspayce.com/mikem/arduino/AccelStepper):
 
@@ -56,3 +58,9 @@ AccelStepper stepper(AccelStepper::DRIVER, X_STEP_PIN, X_DIR_PIN);
   stepper.runToPosition();
   stepper.disableOutputs();
 ```
+
+
+
+# Update
+
+20170419, We made it a library!
