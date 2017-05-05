@@ -17,52 +17,6 @@ boolean MultiStepperDecorate::addStepper(AccelStepperDecorate &stepper)
     _steppers_decorate[_num_steppers++] = &stepper;
 }
 
-/**
-  Very like the original moveTo, just add accelerate, the cons is that, the steppers will not stoped exactly the same time,
-  which is not so import for our usage.
-*/
-void MultiStepperDecorate::moveRelativeWithAccel(long relative[])
-{
-    // First find the stepper that will take the longest time to move
-    float longestTime = 0.0;
-
-    uint8_t i;
-    for (i = 0; i < _num_steppers; i++)
-    {
-	long thisDistance = relative[i];
-	float thisTime = abs(thisDistance) / _steppers_decorate[i]->stepper.maxSpeed();
-
-	if (thisTime > longestTime)
-	    longestTime = thisTime;
-    }
-
-    if (longestTime > 0.0)
-    {
-	// Now work out a new max speed for each stepper so they will all
-	// arrived at the same time of longestTime at the same time
-	for (i = 0; i < _num_steppers; i++)
-	{
-	    long thisDistance = relative[i];
-	    float thisSpeed = thisDistance / longestTime;
-	    _steppers_decorate[i]->stepper.moveTo(relative[i]); // New target position (resets speed)
-	    //_steppers[i]->setSpeed(thisSpeed); // New speed
-	    _steppers_decorate[i]->stepper.setMaxSpeed(thisSpeed);
-	    _steppers_decorate[i]->stepper.setAcceleration(thisSpeed / 3);
-	}
-    }
-}
-
-/**
-  we used setMaxSpeed to make the stppers runs more linearly, so after running, reset maxSpeed is better.
-*/
-void MultiStepperDecorate::moveRelativeWithAccelSetbackMaxSpeed(int maxspeed[])
-{
-    uint8_t i;
-    for (i = 0; i < _num_steppers; i++)
-    {
-	_steppers_decorate[i]->stepper.setMaxSpeed(maxspeed[i]);
-    }
-}
 
 /**
   NOTE: must specify the accel at setup
@@ -120,7 +74,7 @@ void MultiStepperDecorate::runAccelToPosition()
     uint8_t i;
     for (i = 0; i < _num_steppers; i++)
     {
-	_steppers_decorate[i]->stepper.disableOutputs();
+	_steppers_decorate[i]->stop();
     }
 }
 
