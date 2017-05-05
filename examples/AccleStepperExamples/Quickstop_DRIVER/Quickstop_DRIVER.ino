@@ -27,8 +27,11 @@ AccelStepper stepper(AccelStepper::DRIVER, X_STEP_PIN, X_DIR_PIN);
 
 void setup()
 {   
-  pinMode(X_ENABLE_PIN, OUTPUT);
-  digitalWrite(X_ENABLE_PIN, LOW);
+  // pinMode(X_ENABLE_PIN, OUTPUT);
+  // digitalWrite(X_ENABLE_PIN, LOW);
+  stepper.setPinsInverted(false, false, true);
+  stepper.setEnablePin(X_ENABLE_PIN);
+
   stepper.setMaxSpeed(300);
   stepper.setAcceleration(100);
   //stepper.setCurrentPosition(0);
@@ -43,7 +46,7 @@ void loop()
   stepper.runToPosition(); 
   // Now stopped after quickstop
 
-/*
+
   // Now go backwards
   stepper.moveTo(-2000);
   while (stepper.speed() != 300) // Full speed basck to 0
@@ -51,6 +54,6 @@ void loop()
   stepper.stop(); // Stop as fast as possible: sets new target
   stepper.runToPosition(); 
   // Now stopped after quickstop
-*/
+
 }
 

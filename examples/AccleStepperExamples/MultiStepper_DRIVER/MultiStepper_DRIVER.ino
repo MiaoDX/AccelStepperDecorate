@@ -44,6 +44,19 @@ MultiStepper steppers;
 void setup() {
   Serial.begin(9600);
 
+/*
+  pinMode(X_ENABLE_PIN, OUTPUT);
+  digitalWrite(X_ENABLE_PIN, LOW);
+  pinMode(Y_ENABLE_PIN, OUTPUT);
+  digitalWrite(Y_ENABLE_PIN, LOW);
+*/
+
+  stepper1.setPinsInverted(false, false, true);
+  stepper1.setEnablePin(X_ENABLE_PIN);
+  stepper2.setPinsInverted(false, false, true);
+  stepper2.setEnablePin(Y_ENABLE_PIN);
+
+
   // Configure each stepper
   stepper1.setMaxSpeed(1000);
   stepper2.setMaxSpeed(300);
@@ -55,10 +68,7 @@ void setup() {
   steppers.addStepper(stepper1);
   steppers.addStepper(stepper2);
 
-  pinMode(X_ENABLE_PIN, OUTPUT);
-  digitalWrite(X_ENABLE_PIN, LOW);
-  pinMode(Y_ENABLE_PIN, OUTPUT);
-  digitalWrite(Y_ENABLE_PIN, LOW);
+
 }
 
 void loop() {
