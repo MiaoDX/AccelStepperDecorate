@@ -1,7 +1,9 @@
 // MultipleSteppersDecorate.ino
 // -*- mode: C++ -*-
 // Use MultiStepperDecorate class to manage multiple steppers and make them all move to
-// different positions at predefined speed.
+// different positions at predefined speed. And check the limit stop option.
+
+// The only difference with `MultipleSteppersDistanceTranslation` is that, we make the steppers' limit pin enable.
 
 #include <AccelStepper.h>
 #include <PinsAndConfiguration.h>
@@ -37,7 +39,7 @@ AccelStepperDecorate stepper1Decorate('X',
 
 	X_MIN_PIN,
 	X_MAX_PIN,
-	false,
+	true,
 
 	1,
 	1,
@@ -56,7 +58,7 @@ AccelStepperDecorate stepper2Decorate('Y',
 
 	Y_MIN_PIN,
 	Y_MAX_PIN,
-	false,
+	true,
 
 
 	32,
@@ -88,10 +90,11 @@ void loop() {
 
 	// pay attention to the different subdivision of the two steppers, first one with no subdivision, the second one have a subdivision of 32.
 
-	long relative[2] = { 2000, -2000 * 32 };
-	steppersDecorate.moveRelativeStepsWithPredefinedAccel(relative);
+	double relativeDistance[2] = { 2.0, -0.1 };
+	steppersDecorate.moveRelativeDistancesWithPredefinedAccel(relativeDistance);
+
 	int rangeStatusArr[2];
 	steppersDecorate.getAndReportAllRangeStatus(rangeStatusArr);
 
-	delay(2000);
+	delay(2000); //- running done, first stepper status {rangeStatusArr[0]}, second stepper status {rangeStatusArr[1]}
 }

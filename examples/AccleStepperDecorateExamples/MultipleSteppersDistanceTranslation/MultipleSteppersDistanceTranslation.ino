@@ -4,6 +4,7 @@
 // different positions at predefined speed.
 
 #include <AccelStepper.h>
+// #include <MultiStepper.h>
 #include <PinsAndConfiguration.h>
 #include <AccelStepperDecorate.h>
 #include <multiStepperDecorate.h>
@@ -88,10 +89,11 @@ void loop() {
 
 	// pay attention to the different subdivision of the two steppers, first one with no subdivision, the second one have a subdivision of 32.
 
-	long relative[2] = { 2000, -2000 * 32 };
-	steppersDecorate.moveRelativeStepsWithPredefinedAccel(relative);
+	double relativeDistance[2] = { 2.0, -0.1 };
+	steppersDecorate.moveRelativeDistancesWithPredefinedAccel(relativeDistance);
+
 	int rangeStatusArr[2];
 	steppersDecorate.getAndReportAllRangeStatus(rangeStatusArr);
 
-	delay(2000);
+	delay(2000); //- running done, first stepper status {rangeStatusArr[0]}, second stepper status {rangeStatusArr[1]}
 }
