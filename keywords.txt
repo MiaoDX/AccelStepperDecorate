@@ -20,11 +20,12 @@ dis2Pulses  KEYWORD2
 run KEYWORD2
 stop    KEYWORD2
 addStepper  KEYWORD2
-moveRelativeWithPredefinedAccel KEYWORD2
+moveRelativeDistancesWithPredefinedAccel KEYWORD2
+moveRelativeStepsWithPredefinedAccel KEYWORD2
 runAccel    KEYWORD2
 runAccelToPosition  KEYWORD2
-getAllRangeStatus   KEYWORD2
-
+getAndReportAllRangeStatus   KEYWORD2
+homing   KEYWORD2
 #######################################
 # Constants (LITERAL1)
 #######################################

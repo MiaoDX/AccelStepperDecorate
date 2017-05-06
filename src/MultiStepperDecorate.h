@@ -34,11 +34,8 @@ class MultiStepperDecorate
     /// \return true if successful. false if the number of managed steppers would exceed MULTISTEPPER_MAX_STEPPERS
     boolean addStepper(AccelStepperDecorate &stepperDecorate);
 
-    void moveRelativeWithAccel(long relative[]);
-
-    void moveRelativeWithAccelSetbackMaxSpeed(int maxspeed[]);
-
-    void moveRelativeWithPredefinedAccel(long relative[]);
+    void moveRelativeDistancesWithPredefinedAccel(double relativeDistance[]);
+    void moveRelativeStepsWithPredefinedAccel(long relative[]);
 
     void prepareToGo();
 
@@ -46,8 +43,10 @@ class MultiStepperDecorate
 
     void runAccelToPosition();
 
-    void getAllRangeStatus(int rangeStatusArr[]);
+    void getAndReportAllRangeStatus(int rangeStatusArr[]);
 
+    int homing(); // move back to the middle position, 0 for all ok, 1 for no need to move (no stepper with limit), -1 for error
+	void repoertArray(long arr[]);
   private:
     /// Array of pointers to the steppers we are controlling.
     /// Fills from 0 onwards

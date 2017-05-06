@@ -71,6 +71,8 @@ void AccelStepperDecorate::prepareToGo()
     {
         this->outRangeStatus = false;
     }
+
+    this->stepper.enableOutputs();// enable the pins
 }
 
 int AccelStepperDecorate::rangeStatus()
@@ -118,6 +120,8 @@ void AccelStepperDecorate::stop()
 {
     this->stepper.disableOutputs(); // release all pins
 }
+
+
 
 /*
 int stepMotor::motorToHome() {

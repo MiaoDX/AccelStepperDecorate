@@ -43,6 +43,7 @@ class AccelStepperDecorate
     long dis2Pulses(double distance);
     bool run();
     void stop();
+    
 
     /*参数定义*/
   public:
