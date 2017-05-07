@@ -88,10 +88,10 @@ void loop() {
 
 	// pay attention to the different subdivision of the two steppers, first one with no subdivision, the second one have a subdivision of 32.
 
-	long relative[2] = { 2000, -2000 * 32 };
+	long relative[2] = { 200 * 10 * 0, -200* 10 * 32L };
 	steppersDecorate.moveRelativeStepsWithPredefinedAccel(relative);
 	int rangeStatusArr[2];
 	steppersDecorate.getAndReportAllRangeStatus(rangeStatusArr);
 
-	delay(2000);
+	delay(5000);
 }

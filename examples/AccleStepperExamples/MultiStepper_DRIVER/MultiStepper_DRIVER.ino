@@ -58,10 +58,10 @@ void setup() {
 
 
   // Configure each stepper
-  stepper1.setMaxSpeed(1000);
+  stepper1.setMaxSpeed(400);
   stepper2.setMaxSpeed(300);
 
-  stepper1.setAcceleration(5);
+  stepper1.setAcceleration(1000);
   stepper2.setAcceleration(5);
 
   // Then give them to MultiStepper to manage
@@ -75,7 +75,7 @@ void loop() {
   long positions[2]; // Array of desired stepper positions
   
   positions[0] = 1000;
-  positions[1] = 500;
+  positions[1] = 400*32;
   steppers.moveTo(positions);
   steppers.runSpeedToPosition(); // Blocks until all are in position
   delay(1000);

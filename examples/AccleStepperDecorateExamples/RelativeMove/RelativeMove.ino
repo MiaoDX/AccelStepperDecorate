@@ -51,7 +51,7 @@ AccelStepperDecorate stepper1Decorate('X',
                                       1 ,
                                       1 ,
                                       1.8 ,
-                                      200 ,
+                                      400 ,
                                       50 ,
                                       -1 ,
 
@@ -64,11 +64,12 @@ void setup() {
 }
 
 
+
 void loop() {
 
-  long relative = 2000;
+  long relative = 200*40L;
 
-  stepper1Decorate.stepper.moveTo(relative); // this is really ugly.
+  stepper1Decorate.stepper.move(relative); // this is really ugly.
 
   stepper1Decorate.prepareToGo();
 

@@ -89,7 +89,7 @@ void loop() {
 
 	// pay attention to the different subdivision of the two steppers, first one with no subdivision, the second one have a subdivision of 32.
 
-	double relativeDistance[2] = { 2.0, -0.1 };
+	double relativeDistance[2] = { 2.0*0, -0.2 };
 	steppersDecorate.moveRelativeDistancesWithPredefinedAccel(relativeDistance);
 
 	int rangeStatusArr[2];
