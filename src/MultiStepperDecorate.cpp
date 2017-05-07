@@ -92,7 +92,13 @@ boolean MultiStepperDecorate::runAccel()
     boolean ret = false;
     for (i = 0; i < _num_steppers; i++)
     {
-	ret = _steppers_decorate[i]->run() || ret; // if there are steppers have not stoped, just keep running, pay ATTENTION TO THE ORDER
+        bool now_stepper_state = _steppers_decorate[i]->run();
+
+        if(now_stepper_state == false){ // either reach the limit or run all required steps, to avoid some steppers run much longer time and let others hot, just stop the stopped ones
+            _steppers_decorate[i]->stop();
+        }
+
+	   ret = now_stepper_state || ret;
     }
     return ret;
 }
@@ -102,12 +108,6 @@ void MultiStepperDecorate::runAccelToPosition()
 {
     while (runAccel())
 	;
-
-    uint8_t i;
-    for (i = 0; i < _num_steppers; i++)
-    {
-	_steppers_decorate[i]->stop();
-    }
 }
 
 void MultiStepperDecorate::getAndReportAllRangeStatus(int rangeStatusArr[])
