@@ -69,9 +69,11 @@ void loop() {
 
 	long relativeSteps = stepper1Decorate.dis2Pulses(relativeCM); // the answer should == relativeDis/disPerRound * stepsPerRound = 2/0.1 * (200*20) = 20* 4000 = 80,000
 
+	stepper1Decorate.prepareToGo();
+
 	stepper1Decorate.stepper.move(relativeSteps); // this is really ugly.
 
-	stepper1Decorate.prepareToGo();
+	
 
 	// wait to finish the run
 	while (stepper1Decorate.run())

@@ -39,7 +39,7 @@ AccelStepperDecorate stepper1Decorate('X',
 	X_MAX_PIN,
 	false,
 
-	1,
+	32,
 	1,
 	1.8,
 	200,
@@ -88,7 +88,7 @@ void loop() {
 
 	// pay attention to the different subdivision of the two steppers, first one with no subdivision, the second one have a subdivision of 32.
 
-	long relative[2] = { 200 * 10 * 0, -200* 10 * 32L };
+	long relative[2] = { 200 * 5 * 32L, -200* 5 * 32L };
 	steppersDecorate.moveRelativeStepsWithPredefinedAccel(relative);
 	int rangeStatusArr[2];
 	steppersDecorate.getAndReportAllRangeStatus(rangeStatusArr);

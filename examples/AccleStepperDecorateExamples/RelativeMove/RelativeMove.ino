@@ -69,9 +69,9 @@ void loop() {
 
   long relative = 200*40L;
 
-  stepper1Decorate.stepper.move(relative); // this is really ugly.
-
   stepper1Decorate.prepareToGo();
+
+  stepper1Decorate.stepper.move(relative); // this is really ugly.
 
   // wait to finish the run
   while (stepper1Decorate.run())

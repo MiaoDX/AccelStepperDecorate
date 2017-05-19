@@ -53,10 +53,10 @@ AccelStepperDecorate stepper1Decorate('X',
                                       X_ENABLE_PIN,
 
                                       X_MIN_PIN, // 3
-                                      X_MAX_PIN, // 2
-                                      true,
+                                      X_MAX_PIN, // 
+                                      false,
 
-                                      1 ,
+                                      32 ,
                                       1 ,
                                       1.8 ,
                                       200 ,
@@ -76,18 +76,20 @@ void loop() {
 
   check_now_min_max_value();
 
-  long relative = 200000L; // this is relatively large, just to test whether the limit funtion is usable.
+  stepper1Decorate.prepareToGo();
+
+  long relative = 200 * 2 * 32L; // this is relatively large, just to test whether the limit funtion is usable.
   if(now_direction){
-    stepper1Decorate.stepper.moveTo(relative); // this is really ugly.
+    stepper1Decorate.stepper.move(relative); // this is really ugly.
     now_direction = false;
   }
   else{
-    stepper1Decorate.stepper.moveTo(-relative); // this is really ugly.
+    stepper1Decorate.stepper.move(-relative); // this is really ugly.
     now_direction = true;
   }
   
 
-  stepper1Decorate.prepareToGo();
+  
 
   // wait to finish the run
   while (stepper1Decorate.run()) {
