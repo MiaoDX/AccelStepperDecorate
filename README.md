@@ -60,7 +60,19 @@ AccelStepper stepper(AccelStepper::DRIVER, X_STEP_PIN, X_DIR_PIN);
 ```
 
 
+## Lesson Learned
+
+### Stop pin
+
+We are using `digitalRead` to read a analog sensor (the Hall element), it's ugly but doable.
+
+If the sensor reach `LOW`, then it will always emits `LOW` signal, otherwise, it will emits a wave, so it won't always be `LOW`.
+
+So, we read the sensor via `digitalRead` many times (say, 20), and if all results are `LOW`, we (correctly) assume it is a true `LOW`, otherwise, it's not.
+
+Maybe it's better to use `analogRead` provided by arduino, the problem is we are using `RAMP1.4`, which expose additional 6 digital stop pins by default, if we do not break it (to let the analog free by bend the pins), it's a replaceable and acceptable solution. Until other problems show up, we will stick to this.
 
 # Update
 
+20170515, the limit stop function OK!
 20170419, We made it a library!

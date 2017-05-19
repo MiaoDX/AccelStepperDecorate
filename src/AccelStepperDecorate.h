@@ -37,7 +37,7 @@ class AccelStepperDecorate
     ~AccelStepperDecorate();
 
     void setup();
-    void prepareToGo();
+    void prepareToGo(); // we should call prepareToGo at the very beginning, since we rest CurrentPosition by setCurrentPosition(0), this is really an ugly hack, but we have said, we will not pollute the original code of AccelStepper
     int rangeStatus(); // 0 for ok, 1 for Positive limit, -1 for another.
 
     long dis2Pulses(double distance);
@@ -68,6 +68,8 @@ class AccelStepperDecorate
 
     bool outRangeSwitch = true;  // whether we care about out-range or not
     bool outRangeStatus = false; // if true, means already got the limit
+    int outRangePulse = 20; // ATTENTION PLEASE, we are digital read on analog signal (out range Hall element, so, if we read more that outRangePulse LOW, we treat it as low and stop)
+    int nowOutRangePulse = 0;
 
     /*static speed parameter*/
     double stepAngle = 1.8, //步距角

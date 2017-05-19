@@ -43,6 +43,8 @@ AccelStepperDecorate::AccelStepperDecorate(char motorName,
     this->stepper = AccelStepper(AccelStepper::DRIVER, stepPin, dirPin);
 
     this->setup();
+
+    this->stop();
 }
 
 AccelStepperDecorate::~AccelStepperDecorate()
@@ -60,16 +62,21 @@ void AccelStepperDecorate::setup()
     this->stepper.setMaxSpeed(maxSpeed);
     this->stepper.setAcceleration(acceleration);
 
-    pinMode(outRangePinPositive, INPUT);
-    pinMode(outRangePinNegative, INPUT);
+    pinMode(outRangePinPositive, INPUT_PULLUP);
+    pinMode(outRangePinNegative, INPUT_PULLUP);
     // PULL UP?
 }
 
 void AccelStepperDecorate::prepareToGo()
 {
+
+    // rest current position, to make previous move really stop.
+    this->stepper.setCurrentPosition(0);
+
     if (this->outRangeSwitch) // need to care about the limit
     {
         this->outRangeStatus = false;
+        this->nowOutRangePulse = 0;
     }
 
     this->stepper.enableOutputs();// enable the pins
@@ -101,14 +108,21 @@ bool AccelStepperDecorate::run()
         }
 
         long distanceToGo = this->stepper.distanceToGo();
-        if (abs(distanceToGo) % 50 == 0) // every x steps read once, hard code
+        if (abs(distanceToGo) % 2 == 0) // every x steps read once, hard code
         {
             int outRangePin = (distanceToGo > 0.0) ? outRangePinPositive : outRangePinNegative;
 
-            if (digitalRead(outRangePin) == LOW) //限位传感器平时为高电平，到限位区域返回低电平
+            if (digitalRead(outRangePin) == LOW) //限位传感器平时为高电平，到限位区域返回低电平(In fact, it's an analog, we just read enough LOW and treat it as LOW)
             {
-                this->outRangeStatus = true;
-                return false;
+                this->nowOutRangePulse ++;
+
+                if(this->nowOutRangePulse >= this->outRangePulse){
+                    this->outRangeStatus = true;
+                    return false;    
+                }                
+            }
+            else{
+                this->nowOutRangePulse = 0; // rest out range count
             }
         }
     }

@@ -59,6 +59,8 @@ void MultiStepperDecorate::repoertArray(long arr[])
 void MultiStepperDecorate::moveRelativeStepsWithPredefinedAccel(long relative[])
 {
 
+    prepareToGo(); // we call prepareToGo at the very beginning
+
     uint8_t i;
     for (i = 0; i < _num_steppers; i++)
     {
@@ -66,7 +68,7 @@ void MultiStepperDecorate::moveRelativeStepsWithPredefinedAccel(long relative[])
     }
 
 
-    prepareToGo();
+    
     runAccelToPosition();
 
     // int rangeStatusArr[_num_steppers];
@@ -189,7 +191,7 @@ int MultiStepperDecorate::homing()
     for (i = 0; i < _num_steppers; i++)
     {   
         if(rangeStatusArr[i] != 0){
-            return -2; // this will not happen
+            return -2; // this will not happen, since we only move half distance
         }
     }
 
