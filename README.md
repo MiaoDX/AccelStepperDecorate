@@ -70,7 +70,14 @@ If the sensor reach `LOW`, then it will always emits `LOW` signal, otherwise, it
 
 So, we read the sensor via `digitalRead` many times (say, 20), and if all results are `LOW`, we (correctly) assume it is a true `LOW`, otherwise, it's not.
 
-Maybe it's better to use `analogRead` provided by arduino, the problem is we are using `RAMP1.4`, which expose additional 6 digital stop pins by default, if we do not break it (to let the analog free by bend the pins), it's a replaceable and acceptable solution. Until other problems show up, we will stick to this.
+Maybe it's better to use `analogRead` provided by arduino, the problem is we are using `RAMP1.4`, which expose additional 6 digital stop pins by default, if we do not break it (to let the analog free by bend the pins), it's a replaceable and acceptable solution. Until other problems show up, we will stick to this workaround.
+
+Oh, and don't forget we are using `INPUT_PULLUP` for our range pins (`HIGH` means still safe to move, so is default value).
+
+``` cpp
+pinMode(outRangePinPositive, INPUT_PULLUP);
+pinMode(outRangePinNegative, INPUT_PULLUP);
+```
 
 # Update
 
