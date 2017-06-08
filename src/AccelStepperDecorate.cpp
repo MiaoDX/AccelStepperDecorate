@@ -111,7 +111,19 @@ bool AccelStepperDecorate::run()
         if (abs(distanceToGo) % 2 == 0) // every x steps read once, hard code
         {
             int outRangePin = (distanceToGo > 0.0) ? outRangePinPositive : outRangePinNegative;
+/*
+            Serial.print("DEBUG, the outRangePin of present motor are:\nPositive:");
+            Serial.print(outRangePinPositive);
+            Serial.print("\nNegative:");
+            Serial.print(outRangePinNegative);
+            Serial.print("\nNow chosen one:");
+            Serial.print(outRangePin);
+            Serial.print("value:");
 
+            int outRangePinValue = digitalRead(outRangePin);
+            Serial.print(outRangePinValue);
+            Serial.println();
+*/
             if (digitalRead(outRangePin) == LOW) //限位传感器平时为高电平，到限位区域返回低电平(In fact, it's an analog, we just read enough LOW and treat it as LOW)
             {
                 this->nowOutRangePulse ++;
