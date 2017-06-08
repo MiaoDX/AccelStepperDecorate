@@ -9,34 +9,34 @@
 
 
 /*
-    AccelStepperDecorate(char motorName,
-                         int dirPin,
-                         int stepPin,
-                         int enablePin,
+	AccelStepperDecorate(char motorName,
+						 int dirPin,
+						 int stepPin,
+						 int enablePin,
 
-                         int outRangePinNegative,
-                         int outRangePinPositive,
-                         bool outRangeSwitch,
+						 int outRangePinNegative,
+						 int outRangePinPositive,
+						 bool outRangeSwitch,
 
-                         int subdivision,
-                         int reductionRatio,
-                         double stepAngle,
-                         double maxSpeed,
-                         double acceleration,
-                         double maxMovingDistance,
+						 int subdivision,
+						 int reductionRatio,
+						 double stepAngle,
+						 double maxSpeed,
+						 double acceleration,
+						 double maxMovingDistance,
 
-                         double disPerRound
-                         );
+						 double disPerRound
+						 );
 */
 
 /*
 * Note that this stepper is hard coded enable pin as reversed
 * so if your shield or board connection won't run at all, just check this
 *
-* The Limit pins (MIN_PIN and MAX_PIN) are set to be used (outRangeSwitch == true), so we need to do some wire connection to make 
+* The Limit pins (MIN_PIN and MAX_PIN) are set to be used (outRangeSwitch == true), so we need to do some wire connection to make
 * this experiment work.
 
-The limit pins emit `LOW` means the stepper have encountered the limit and should stop, so if we want to make the stepper run, we 
+The limit pins emit `LOW` means the stepper have encountered the limit and should stop, so if we want to make the stepper run, we
 set the limit `HIGH`, if we want it stop, set it `LOW` is enough.
 
 A very easy way to check this is use a switch button and click to check the function.
@@ -47,103 +47,118 @@ A very easy way to check this is use a switch button and click to check the func
 *
 * The subdivision is set to 1 (no subdivision)
 */
+
+
+
 AccelStepperDecorate stepper1Decorate('X',
-                                      X_DIR_PIN,
-                                      X_STEP_PIN,
-                                      X_ENABLE_PIN,
+	X_DIR_PIN,
+	X_STEP_PIN,
+	X_ENABLE_PIN,
 
-                                      X_MIN_PIN, // 3
-                                      X_MAX_PIN, // 
-                                      true,
+	X_MIN_PIN, // 3
+	X_MAX_PIN, // 
+	true,
 
-                                      32 ,
-                                      1 ,
-                                      1.8 ,
-                                      200 ,
-                                      50 ,
-                                      -1 ,
+	32,
+	1,
+	1.8,
+	200,
+	50,
+	X_MAX_MovingDistance,
 
-                                      0.1
-                                     );
+	X_disPerRound
+);
 
 void setup() {
-  Serial.begin(9600);
+	Serial.begin(9600);
 }
 
 
 void loop() {
 
-  long relative = 0;
+	long relative = 0;
 
-  Serial.println("IDEL waiting command...");
-  while (!Serial.available()){
-    ;
-  }
+	Serial.println("IDEL waiting command...");
+	while (!Serial.available()) {
+		;
+	}
 
-  while (Serial.available()) {
-    relative = 200 * 2 * 32L; // this is relatively large, just to test whether the limit funtion is usable.
-    char inChar = Serial.read();
-    switch (inChar) {  // read a character
-        Serial.print("WE GOT FROM SERIAL: ");
-        Serial.print(inChar);
-        case '0':   
-          relative = 0;
-          break;
-        case '1':
-          relative = relative;
-          break;
-        case '2':
-          relative = -relative;
-          break;
-        default:  // all other commands are ignored.
-          Serial.println("Bad Command");
-      }
+	while (Serial.available()) {
+		relative = 200 * 2 * 32L; // this is relatively large, just to test whether the limit funtion is usable.
+		char inChar = Serial.read();
+		switch (inChar) {  // read a character
+			Serial.print("WE GOT FROM SERIAL: ");
+			Serial.print(inChar);
+		case '0':
+			relative = 0;
+			break;
+		case '1':
+			relative = relative;
+			break;
+		case '2':
+			relative = -relative;
+			break;
+		default:  // all other commands are ignored.
+			Serial.println("Bad Command");
+		}
 
-	while (Serial.read() >= 0)
-		; // flush any extra characters
-  }
+		while (Serial.read() >= 0)
+			; // flush any extra characters
+	}
 
+	Serial.print("steps to go:");
+	Serial.println(relative);
 
-  Serial.println("Going to run!");
-
-
-  check_now_min_max_value();
-
-  stepper1Decorate.prepareToGo();
-
-  stepper1Decorate.stepper.move(relative); // this is really ugly.  
+	Serial.println("Going to run!");
 
 
-  long dsTG = stepper1Decorate.stepper.distanceToGo();
-  Serial.print("distance to go:");
-  Serial.println(dsTG);
+	check_now_min_max_value(X_MIN_PIN, X_MAX_PIN);
 
-  // wait to finish the run
-  while (stepper1Decorate.run()) {
-	  ; // idle wait
-	  if (stepper1Decorate.stepper.distanceToGo() % 1000 == 0) {
-		  Serial.println("still going");
-	  }
-  }
-	
-  stepper1Decorate.stop();
+	stepper1Decorate.prepareToGo();
 
-  dsTG = stepper1Decorate.stepper.distanceToGo();
-  Serial.print("distance to go:");
-  Serial.println(dsTG);
-  check_running_status();
-  
+	stepper1Decorate.stepper.move(relative); // this is really ugly.  
 
-  delay(2000);
+
+	long dsTG = stepper1Decorate.stepper.distanceToGo();
+	Serial.print("distance to go:");
+	Serial.println(dsTG);
+
+	// wait to finish the run
+	while (stepper1Decorate.run()) {
+		; // idle wait
+		if (stepper1Decorate.stepper.distanceToGo() % 1000 == 0) {
+			Serial.println("still going");
+		}
+	}
+
+	stepper1Decorate.stop();
+
+	dsTG = stepper1Decorate.stepper.distanceToGo();
+	Serial.print("distance to go:");
+	Serial.println(dsTG);
+	check_running_status();
+
+
+	delay(2000);
 }
 
-void check_now_min_max_value() {
-	int min_v = digitalRead(X_MIN_PIN);
-	int max_v = digitalRead(X_MAX_PIN);
+void check_now_min_max_value(int MIN_PIN, int MAX_PIN) {
 	Serial.println("min_v and max_v are:");
-	Serial.print(min_v);
-	Serial.print(" ");
-	Serial.println(max_v);
+	for (int i = 0; i < 20; i++) {
+
+		int min_v = digitalRead(MIN_PIN);
+		int max_v = digitalRead(MAX_PIN);
+
+		Serial.print("MIN_PIN,");
+		Serial.print(MIN_PIN);
+		Serial.print(":");
+		Serial.print(min_v);
+		Serial.print("  ");
+		Serial.print("MAX_PIN,");
+		Serial.print(MAX_PIN);
+		Serial.print(":");
+		Serial.println(max_v);
+	}
 }
 
 void check_running_status() {

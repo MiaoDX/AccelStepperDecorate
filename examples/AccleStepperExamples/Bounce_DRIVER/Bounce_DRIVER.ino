@@ -22,46 +22,46 @@
 //#define X_ENABLE_PIN       13
 
 
-AccelStepper stepper(AccelStepper::DRIVER, X_STEP_PIN, X_DIR_PIN); 
+AccelStepper stepper(AccelStepper::DRIVER, X_STEP_PIN, X_DIR_PIN);
 bool nowDirection = true;
 void setup()
-{  
-//  pinMode(X_ENABLE_PIN, OUTPUT);
-//  digitalWrite(X_ENABLE_PIN, LOW);
+{
+	//  pinMode(X_ENABLE_PIN, OUTPUT);
+	//  digitalWrite(X_ENABLE_PIN, LOW);
 
-  stepper.setPinsInverted(false, false, true);
-  stepper.setEnablePin(X_ENABLE_PIN);
-  
+	stepper.setPinsInverted(false, false, true);
+	stepper.setEnablePin(X_ENABLE_PIN);
 
 
-  stepper.setMaxSpeed(200);
-  stepper.setAcceleration(50);
+
+	stepper.setMaxSpeed(200);
+	stepper.setAcceleration(50);
 }
 
 
 
 void loop()
-{    
+{
 
-	long relative = 200*10L;
+	long relative = 200 * 10L;
 
-	if(nowDirection){
-		stepper.move(relative);	
+	if (nowDirection) {
+		stepper.move(relative);
 		nowDirection = false;
 	}
-	else{
-		stepper.move(-relative);	
-		nowDirection = true;	
+	else {
+		stepper.move(-relative);
+		nowDirection = true;
 	}
 
-stepper.enableOutputs();
-  
+	stepper.enableOutputs();
 
-  
-  stepper.runToPosition();
-  stepper.disableOutputs();
 
-  delay(2000);
+
+	stepper.runToPosition();
+	stepper.disableOutputs();
+
+	delay(2000);
 }
 
 

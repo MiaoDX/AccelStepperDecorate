@@ -31,45 +31,46 @@
 						 );
 */
 
+
+
+
 AccelStepperDecorate stepper1Decorate('X',
 	X_DIR_PIN,
 	X_STEP_PIN,
 	X_ENABLE_PIN,
 
-	X_MIN_PIN,
-	X_MAX_PIN,
+	X_MIN_PIN, // 3
+	X_MAX_PIN, // 2
 	true,
-
-	1,
-	1,
-	1.8,
-	200,
-	50,
-	2,
-
-	0.1
-);
-
-AccelStepperDecorate stepper2Decorate('Y',
-	Y_DIR_PIN,
-	Y_STEP_PIN,
-	Y_ENABLE_PIN,
-
-	Y_MIN_PIN,
-	Y_MAX_PIN,
-	false,
-
 
 	32,
 	1,
 	1.8,
 	200,
 	50,
-	20,
+	X_MAX_MovingDistance,
 
-	0.1
+	X_disPerRound
 );
 
+AccelStepperDecorate stepper2Decorate('Z',
+	Z_DIR_PIN,
+	Z_STEP_PIN,
+	Z_ENABLE_PIN,
+
+	Z_MIN_PIN,
+	Z_MAX_PIN,
+	true,
+
+	32,
+	1,
+	1.8,
+	800,
+	50,
+	Z_MAX_MovingDistance,
+
+	Z_disPerRound
+);
 
 
 // Up to 10 steppers can be handled as a group by MultiStepper
@@ -100,15 +101,15 @@ void loop() {
 
 	Really situation)Second is conncet wire to the real platfrom with LIMIT pins connected as see all things OK
 	*/
-	
-	/* 
+
+	/*
 	To test this function, we'd better have a switch to make things easy, now is just plug the wire in and out -.-
 	*/
 
 
 	// pay attention to the different subdivision of the two steppers, first one with no subdivision, the second one have a subdivision of 32.
 
-	/* 
+	/*
 	LET us do some calculation,
 	1) first stepper, no subdivision, maxMovingDistance=2cm, disPerRound=0.1cm, so maxMovingSteps=2/0.1*200 = 4,000
 	2) second stepper, subdivision of 32, maxMovingDistance=20cm, disPerRound=0.1cm, so maxMovingSteps=20/0.1*200*32 = 40,000*32 = 1,280,000

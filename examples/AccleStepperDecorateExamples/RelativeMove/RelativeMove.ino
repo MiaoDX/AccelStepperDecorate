@@ -10,24 +10,24 @@
 
 
 /*
-    AccelStepperDecorate(char motorName,
-                         int dirPin,
-                         int stepPin,
-                         int enablePin,
+	AccelStepperDecorate(char motorName,
+						 int dirPin,
+						 int stepPin,
+						 int enablePin,
 
-                         int outRangePinNegative,
-                         int outRangePinPositive,
-                         bool outRangeSwitch,
+						 int outRangePinNegative,
+						 int outRangePinPositive,
+						 bool outRangeSwitch,
 
-                         int subdivision,
-                         int reductionRatio,
-                         double stepAngle,
-                         double maxSpeed,
-                         double acceleration,
-                         double maxMovingDistance,
+						 int subdivision,
+						 int reductionRatio,
+						 double stepAngle,
+						 double maxSpeed,
+						 double acceleration,
+						 double maxMovingDistance,
 
-                         double disPerRound
-                         );
+						 double disPerRound
+						 );
 */
 
 /*
@@ -40,45 +40,45 @@
 * The subdivision is set to 1 (no subdivision)
 */
 AccelStepperDecorate stepper1Decorate('X',
-                                      X_DIR_PIN,
-                                      X_STEP_PIN,
-                                      X_ENABLE_PIN,
+	X_DIR_PIN,
+	X_STEP_PIN,
+	X_ENABLE_PIN,
 
-                                      X_MIN_PIN,
-                                      X_MAX_PIN,
-                                      false,
+	X_MIN_PIN,
+	X_MAX_PIN,
+	false,
 
-                                      1 ,
-                                      1 ,
-                                      1.8 ,
-                                      400 ,
-                                      50 ,
-                                      -1 ,
+	1,
+	1,
+	1.8,
+	400,
+	50,
+	X_MAX_MovingDistance,
 
-                                      0.1
-                                     );
+	X_disPerRound
+);
 
 
 void setup() {
-  Serial.begin(9600);
+	Serial.begin(9600);
 }
 
 
 
 void loop() {
 
-  long relative = 200*40L;
+	long relative = -200 * 20 * 32L;
 
-  stepper1Decorate.prepareToGo();
+	stepper1Decorate.prepareToGo();
 
-  stepper1Decorate.stepper.move(relative); // this is really ugly.
+	stepper1Decorate.stepper.move(relative); // this is really ugly.
 
-  // wait to finish the run
-  while (stepper1Decorate.run())
-	; // idle wait
+	// wait to finish the run
+	while (stepper1Decorate.run())
+		; // idle wait
 
-  stepper1Decorate.stop();
+	stepper1Decorate.stop();
 
 
-  delay(2000);
+	delay(2000);
 }

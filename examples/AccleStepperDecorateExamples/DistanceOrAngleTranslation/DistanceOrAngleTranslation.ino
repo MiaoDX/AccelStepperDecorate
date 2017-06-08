@@ -48,14 +48,14 @@ AccelStepperDecorate stepper1Decorate('X',
 	X_MAX_PIN,
 	true,
 
-	20,
+	32,
 	1,
 	1.8,
 	200,
 	50,
-	-1,
+	X_MAX_MovingDistance,
 
-	0.1
+	X_disPerRound
 );
 
 void setup() {
@@ -65,15 +65,17 @@ void setup() {
 
 void loop() {
 
-	double relativeCM = 20;
+	double relativeMM = 20;
 
-	long relativeSteps = stepper1Decorate.dis2Pulses(relativeCM); // the answer should == relativeDis/disPerRound * stepsPerRound = 2/0.1 * (200*20) = 20* 4000 = 80,000
+	long relativeSteps = stepper1Decorate.dis2Pulses(relativeMM); // the answer should == relativeDis/disPerRound * stepsPerRound = 2/0.1 * (200*20) = 20* 4000 = 80,000
+
+	Serial.println(relativeSteps);
 
 	stepper1Decorate.prepareToGo();
 
 	stepper1Decorate.stepper.move(relativeSteps); // this is really ugly.
 
-	
+
 
 	// wait to finish the run
 	while (stepper1Decorate.run())

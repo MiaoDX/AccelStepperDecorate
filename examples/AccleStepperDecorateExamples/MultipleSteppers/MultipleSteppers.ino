@@ -44,18 +44,18 @@ AccelStepperDecorate stepper1Decorate('X',
 	1.8,
 	200,
 	50,
-	20,
+	X_MAX_MovingDistance,
 
-	0.1
+	X_disPerRound
 );
 
-AccelStepperDecorate stepper2Decorate('Y',
-	Y_DIR_PIN,
-	Y_STEP_PIN,
-	Y_ENABLE_PIN,
+AccelStepperDecorate stepper2Decorate('Z',
+	Z_DIR_PIN,
+	Z_STEP_PIN,
+	Z_ENABLE_PIN,
 
-	Y_MIN_PIN,
-	Y_MAX_PIN,
+	Z_MIN_PIN,
+	Z_MAX_PIN,
 	false,
 
 
@@ -64,9 +64,9 @@ AccelStepperDecorate stepper2Decorate('Y',
 	1.8,
 	200,
 	50,
-	20,
+	Z_MAX_MovingDistance,
 
-	0.1
+	Z_disPerRound
 );
 
 
@@ -88,7 +88,8 @@ void loop() {
 
 	// pay attention to the different subdivision of the two steppers, first one with no subdivision, the second one have a subdivision of 32.
 
-	long relative[2] = { 200 * 5 * 32L, -200* 5 * 32L };
+	long relative[2] = { 200 * 1 * 32L, -200 * 1 * 32L };
+	//long relative[2] = { 200 * 1 * 32L, 0 };
 	steppersDecorate.moveRelativeStepsWithPredefinedAccel(relative);
 	int rangeStatusArr[2];
 	steppersDecorate.getAndReportAllRangeStatus(rangeStatusArr);
