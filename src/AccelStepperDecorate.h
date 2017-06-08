@@ -47,7 +47,7 @@ class AccelStepperDecorate
 
     /*参数定义*/
   public:
-    AccelStepper stepper;
+    AccelStepper stepper = AccelStepper(AccelStepper::DRIVER, 0, 0);
 
     char motorName;
     /*pin connection*/
