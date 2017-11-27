@@ -93,7 +93,15 @@ int AccelStepperDecorate::rangeStatus()
 }
 
 long AccelStepperDecorate::dis2Pulses(double distance)
-{
+{   
+    
+    //Serial.println(String("in dis2Pulses:distance/disPerRound/stepPerRound:")+distance+"/"+this->disPerRound+"/"+this->stepPerRound);
+    // Serial.print("distance:");
+    // Serial.print(distance);
+    // Serial.print("disPerRound:");
+    // Serial.print(this->disPerRound);
+    // Serial.print("stepPerRound:");
+    // Serial.print(this->stepPerRound);
     return (long)((distance + 0.0) / this->disPerRound * this->stepPerRound); //	脉冲数 = 距离/每圈“距离”*每圈脉冲数
 };
 
@@ -134,7 +142,7 @@ bool AccelStepperDecorate::run()
                 }                
             }
             else{
-                this->nowOutRangePulse = 0; // rest out range count
+                this->nowOutRangePulse = 0; // reset out range count
             }
         }
     }

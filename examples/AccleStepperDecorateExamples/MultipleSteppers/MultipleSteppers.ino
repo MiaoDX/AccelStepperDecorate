@@ -83,16 +83,25 @@ void setup() {
 	steppersDecorate.addStepper(stepper2Decorate);
 }
 
-
+unsigned long time = 0;
 void loop() {
+
+	time = micros ();
+	Serial.print ( "Before:" );
+	Serial.println ( time );
 
 	// pay attention to the different subdivision of the two steppers, first one with no subdivision, the second one have a subdivision of 32.
 
-	long relative[2] = { 200 * 1 * 32L, -200 * 1 * 32L };
-	//long relative[2] = { 200 * 1 * 32L, 0 };
+	//long relative[2] = { 200 * 10 * 32L, -200 * 10 * 32L };
+	long relative[2] = { 200 * 10 * 32L, 0 };
 	steppersDecorate.moveRelativeStepsWithPredefinedAccel(relative);
 	int rangeStatusArr[2];
 	steppersDecorate.getAndReportAllRangeStatus(rangeStatusArr);
+
+	Serial.print ( "After:" );
+	Serial.println ( micros () );
+	Serial.print ( "Spent:" );
+	Serial.println ( micros () - time );
 
 	delay(5000);
 }

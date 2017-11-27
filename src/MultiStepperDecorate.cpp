@@ -23,6 +23,9 @@ void MultiStepperDecorate::moveRelativeDistancesWithPredefinedAccel(double relat
 {
     long maxMovingSteps[_num_steppers]; // have not init
 
+    Serial.println("the distances received in the calc routine are:");
+    repoertArray(relativeDistance);
+
     uint8_t i;
     for (i = 0; i < _num_steppers; i++)
     {
@@ -37,6 +40,16 @@ void MultiStepperDecorate::moveRelativeDistancesWithPredefinedAccel(double relat
 
     // int rangeStatusArr[_num_steppers];
     // getAndReportAllRangeStatus(rangeStatusArr);
+}
+
+void MultiStepperDecorate::repoertArray(double arr[])
+{
+    uint8_t i;
+    for (i = 0; i < _num_steppers; i++)
+    {
+        Serial.print(arr[i]); Serial.print(" ");
+    }
+    Serial.println();
 }
 
 void MultiStepperDecorate::repoertArray(long arr[])
@@ -87,6 +100,16 @@ void MultiStepperDecorate::prepareToGo()
     }
 }
 
+void MultiStepperDecorate::stopAll()
+{
+    uint8_t i;
+
+    for (i = 0; i < _num_steppers; i++)
+    {
+    _steppers_decorate[i]->stop();
+    }
+}
+
 // Returns true if any motor is still running to the target position.
 boolean MultiStepperDecorate::runAccel()
 {
@@ -96,9 +119,10 @@ boolean MultiStepperDecorate::runAccel()
     {
         bool now_stepper_state = _steppers_decorate[i]->run();
 
-        if(now_stepper_state == false){ // either reach the limit or run all required steps, to avoid some steppers run much longer time and let others hot, just stop the stopped ones
-            _steppers_decorate[i]->stop();
-        }
+        // we do not stop by setting enable pins, since for UNO like board there is only one enable pin
+        // if(now_stepper_state == false){ // either reach the limit or run all required steps, to avoid some steppers run much longer time and let others hot, just stop the stopped ones
+        //     _steppers_decorate[i]->stop();
+        // }
 
 	   ret = now_stepper_state || ret;
     }
@@ -110,6 +134,8 @@ void MultiStepperDecorate::runAccelToPosition()
 {
     while (runAccel())
 	;
+    Serial.println("Move done, going to stop the steppers.");
+    stopAll();
 }
 
 void MultiStepperDecorate::getAndReportAllRangeStatus(int rangeStatusArr[])
@@ -148,11 +174,11 @@ int MultiStepperDecorate::homing()
             maxMovingSteps[i] = _steppers_decorate[i]->dis2Pulses(_steppers_decorate[i]->maxMovingDistance *2);// pay attention to the multiply 2, we use this to make sure will get the limit
         }
 
-        Serial.println("calculated maxMovingSteps (times 2 to make sure limit will be reached)");
-        repoertArray(maxMovingSteps);
-
         rtn = rtn || limit_flag;
     }
+
+    Serial.println("calculated maxMovingSteps (times 2 to make sure limit will be reached)");
+    repoertArray(maxMovingSteps);
 
     // if all steppers are no-limit stepper, just return
     if (rtn == false){

@@ -39,6 +39,8 @@ class MultiStepperDecorate
 
     void prepareToGo();
 
+    void stopAll();
+
     boolean runAccel();
 
     void runAccelToPosition();
@@ -47,6 +49,7 @@ class MultiStepperDecorate
 
     int homing(); // move back to the middle position, 0 for all ok, 1 for no need to move (no stepper with limit), -1 for error
 	void repoertArray(long arr[]);
+    void repoertArray(double arr[]);
   private:
     /// Array of pointers to the steppers we are controlling.
     /// Fills from 0 onwards
